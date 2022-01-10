@@ -5,6 +5,7 @@ import List from "./components/List/List";
 import Item from "./components/Item/Item";
 import Editor from "./components/Editor/Editor";
 import Preview from "./components/Preview/Preview";
+import ItemsContext from "./components/Context/ItemsContext";
 import uuid from "react-uuid";
 import "./App.css";
 
@@ -16,6 +17,7 @@ function App() {
   //Estado del índice
   const [actualIndex, setActualIndex] = useState(-1);
 
+  //Función para crear una nueva nota
 	function handleNew() {
 		const note = {
 			id: uuid(),
@@ -125,7 +127,9 @@ function App() {
 	return (
 		<div className="App container">
 			<Panel>
-				<Menu onNew={handleNew} onSearch={handleSearch}/>
+         <ItemsContext.Provider value={{onSearch:handleSearch, onNew:handleNew}}>
+				  <Menu/>
+        </ItemsContext.Provider>
 				<List>
 					{copyItems.map((item, i) => {
 						return (
