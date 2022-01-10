@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Panel from "./components/Panel/Panel";
 import Menu from "./components/Menu/Menu";
 import List from "./components/List/List";
@@ -6,7 +6,9 @@ import Item from "./components/Item/Item";
 import Editor from "./components/Editor/Editor";
 import Preview from "./components/Preview/Preview";
 import ItemsContext from "./components/Context/ItemsContext";
+import StatusContext from "./components/Context/StatusContext";
 import uuid from "react-uuid";
+import {get, post, put} from "./Lib/http"
 import "./App.css";
 
 function App() {
@@ -16,9 +18,29 @@ function App() {
   const [copyItems, setCopyItems] = useState([]);
   //Estado del índice
   const [actualIndex, setActualIndex] = useState(-1);
+  //Estado para autoguardado
+  const [lock, setLock] = useState(false)
+  const [status, setStatus] = useState(0)
+  //URL para el servidor
+  const URL = "http://localhost:3010/"
+
+  //Funciones para hacer llamadas al servidor
+  async function getItems(){
+    let data = await get(`${URL}`);
+    let res = getOrderedNotes(data)
+
+    setItems(res)
+    setCopyItems(res)
+    
+    if(items.length > 0) setActualIndex(0);
+  }
+
+  useEffect(() => {
+    getItems();
+  }, []);
 
   //Función para crear una nueva nota
-	function handleNew() {
+	async function handleNew() {
 		const note = {
 			id: uuid(),
 			title: "Título",
@@ -34,6 +56,8 @@ function App() {
 
 		setItems(res);
     setCopyItems(res)
+
+    const data = await post (`${URL}new`, note)
 	}
 
   //Funcion para pinear (toggle) las notas al hacer click
@@ -95,11 +119,34 @@ function App() {
     setCopyItems(notes)
   }
 
+  //Función para guardar automático, que se llama en el StatusContext
+  function autosave(){
+    if (!lock){
+      setLock(true);
+      setStatus(1);
+      setTimeout( () => {
+        save()
+        setLock(false)
+      }, 3000)
+    }
+  }
+
+  async function save(){
+    const item = items[actualIndex]
+    const response = await put(`${URL}update`, item)
+    setStatus(2)
+    setTimeout (() => {
+      setStatus(0)
+    }, 1000)
+  }
+
   //Funcion para renderizar la nota al hacerle click
   function renderEditorAndPreview() {
     return (
       <>
-        <Editor item={copyItems[actualIndex]} onChangeTitle={onChangeTitle} onChangeText={onChangeText}/>
+        <StatusContext.Provider value={{status: status, autosave: autosave}}>
+          <Editor item={copyItems[actualIndex]} onChangeTitle={onChangeTitle} onChangeText={onChangeText}/> 
+        </StatusContext.Provider>
         <Preview text={items[actualIndex].text}/>
       </>
     )
