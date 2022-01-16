@@ -17,7 +17,7 @@ const Menu = () => {
         <div className="menu">
 				<input className="search" placeholder="Buscar..." onChange={handleChange}></input>
 				<button className="btn" onClick={() => handleClick()}>
-					+ Nueva Nota
+					+ Nueva
 				</button>
 			</div>
     )

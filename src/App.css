@@ -1,19 +1,41 @@
 .container{
   display: flex;
   height: 100vh;
-  background-color: #3b4055;
+  background-color: #595959;
 }
 
 .panel{
-  background-color: #2b2f42;
+  background-color: #262626;
   width: 20%;
   padding: 10px 0;
+  overflow-y: scroll;
+}
+
+@media (max-width: 1200px) {
+  .container{
+    flex-direction: column;
+  }
+
+  .panel {
+    width: 100%;
+    height: 20%;
+  }
+
+  .editor{
+    min-width: 95%;
+    height: 30%;
+  }
+
+  .preview{
+    min-width: 95%;
+    height: 50%;
+  }
 }
 
 .editor{
-  background-color: #3b4055;
+  background-color: #595959;
   padding: 10px;
-  width: 40%;
+  width: 20%;
   display: flex;
   flex-direction: column;
 }
@@ -26,10 +48,10 @@
 
 
 .preview{
-  background-color: #3b4055;
+  background-color: #262626;
   color: white;
-  padding: 10px;
-  width: 40%;
+  padding: 20px;
+  width: 60%;
 }
 
 .note{
@@ -50,34 +72,37 @@
 }
 
 .btn{
-  background: #2b5b88;
+  background: #8C8C8C;
   border: none;
   border-radius: 3px;
   padding: 10px;
   color: white;
   font-size: 16px;
   cursor: pointer;
+  transition: 0.1s ease-in;
+  width: 30%;
 }
 .btn:hover{
-  background: #3d87cc;
+  background: #595959;
 }
 
 
 .pinButton{
-  background: #2b5b88;
+  background: #8C8C8C;
   border: none;
   border-radius: 3px;
   padding: 5px;
   color: white;
   cursor: pointer;
+  transition: 0.1s ease-in;
 }
 
 .pinButton:hover{
-  background-color: #3d87cc;
+  background-color: #262626;
 }
 
 .activeNote{
-  background-color: #2084e2;
+  background-color: #595959;
 }
 
 .editor-textarea{
@@ -124,9 +149,9 @@
   outline: none;
   border-radius: 5px;
   border: none;
-  width: 60%;
+  width: 70%;
   font-size: 16px;
-  background: #394168;
+  background: #595959;
 
 }
 .search:focus{

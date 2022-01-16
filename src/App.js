@@ -22,7 +22,7 @@ function App() {
   const [lock, setLock] = useState(false)
   const [status, setStatus] = useState(0)
   //URL para el servidor
-  const URL = "http://localhost:3010/"
+  const URL = "https://loving-newton-2d2107.netlify.app/"
 
   //Funciones para hacer llamadas al servidor
   async function getItems(){
@@ -44,7 +44,7 @@ function App() {
 		const note = {
 			id: uuid(),
 			title: "Título",
-			text: "Contenido",
+			text: "## Recordá escribir en markdown \n De este modo",
 			pinned: false,
 			created: Date.now(),
 		};
