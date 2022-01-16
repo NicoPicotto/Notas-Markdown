@@ -22,7 +22,7 @@ function App() {
   const [lock, setLock] = useState(false)
   const [status, setStatus] = useState(0)
   //URL para el servidor
-  const URL = "https://loving-newton-2d2107.netlify.app/"
+  const URL = "http://localhost:3010/"
 
   //Funciones para hacer llamadas al servidor
   async function getItems(){
